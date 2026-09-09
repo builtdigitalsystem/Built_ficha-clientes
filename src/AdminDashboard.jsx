@@ -375,12 +375,16 @@ function Dashboard() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
                     <div>
                       <label style={labelStyle}>Fecha inicio</label>
-                      <input type="date" value={f.fecha_ingreso || ""} disabled style={inputStyle} />
+                      <div style={{ ...inputStyle, color: C.charcoal, background: C.stone, display: "flex", alignItems: "center" }}>
+                        {f.fecha_ingreso || "—"}
+                      </div>
                     </div>
                     <div>
                       <label style={labelStyle}>Fecha fin</label>
                       <input
-                        type="date"
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="AAAA-MM-DD"
                         value={f.fecha_fin || ""}
                         onChange={(e) => actualizarCampo(f.id, "fecha_fin", e.target.value)}
                         style={inputStyle}
@@ -454,13 +458,36 @@ function Dashboard() {
                   <Detalle label="¿Cómo se visualiza?" value={f.visualizacion} />
 
                   {f.captura_ig && (
-                    <div style={{ marginTop: 12 }}>
-                      <div style={{ fontSize: 11, color: C.ash, marginBottom: 6 }}>Captura de Instagram</div>
-                      <img
-                        src={f.captura_ig}
-                        alt="IG"
-                        style={{ maxWidth: 160, borderRadius: 12, border: `6px solid ${C.black}` }}
-                      />
+                    <div style={{ marginTop: 16 }}>
+                      <div style={{ fontSize: 11, color: C.ash, marginBottom: 8 }}>Captura de Instagram</div>
+                      <div
+                        style={{
+                          width: 160,
+                          background: C.stone,
+                          borderRadius: 24,
+                          padding: 14,
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "100%",
+                            aspectRatio: "9/19.5",
+                            background: "#fff",
+                            borderRadius: 16,
+                            border: `4px solid ${C.black}`,
+                            overflow: "hidden",
+                            position: "relative",
+                          }}
+                        >
+                          <img
+                            src={f.captura_ig}
+                            alt="IG"
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   )}
 
@@ -540,6 +567,7 @@ function Dashboard() {
 const labelStyle = { fontSize: 12, color: "#9C9890", display: "block", marginBottom: 4 };
 const inputStyle = {
   width: "100%",
+  height: 36,
   padding: "8px 10px",
   borderRadius: 8,
   border: "1px solid #E6E2DC",
@@ -632,3 +660,4 @@ function Shell({ children }) {
     </div>
   );
 }
+
