@@ -44,6 +44,23 @@ export default function FichaCliente() {
     setGuardado(false);
     setErrorGuardar("");
     setLinkFicha("");
+
+    if (correo) {
+      const { data: existentes } = await supabase
+        .from("fichas_clientes")
+        .select("id")
+        .eq("correo", correo);
+      if (existentes && existentes.length > 0) {
+        const continuar = window.confirm(
+          "Ya existe una ficha guardada con este correo. ¿Quieres crear otra de todas formas?"
+        );
+        if (!continuar) {
+          setGuardando(false);
+          return;
+        }
+      }
+    }
+
     const { data, error } = await supabase
       .from("fichas_clientes")
       .insert([
@@ -567,7 +584,7 @@ export default function FichaCliente() {
             {guardado && (
               <div style={{ width: "100%" }}>
                 <span style={{ fontSize: 13, color: C.charcoal, display: "block", marginBottom: 8 }}>
-                  Ficha guardada correctamente. Comparte este link con la clienta:
+                  Guarda este link para poder ver o completar tu ficha más adelante:
                 </span>
                 <div
                   style={{
